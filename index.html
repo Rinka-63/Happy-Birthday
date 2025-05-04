@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', cursive;
+      overflow: hidden;
+    }
+    body {
+      background-color: #b5d8f9;
+      transition: background 1s ease;
+    }
+    .interaction-area {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 28px;
+      color: #000000;
+      margin-bottom: 30px;
+    }
+    .btn {
+      font-size: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      position: relative;
+      z-index: 10;
+    }
+    .yes-btn {
+      background-color: #4747e6;
+      color: white;
+    }
+    .no-btn {
+      background-color: #d3d3d3;
+      color: #333;
+    }
+    .no-btn.movable {
+      position: fixed;
+    }
+    .button-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .message-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      padding: 70px 20px;
+      margin: 60px auto;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      background-color: rgba(158, 179, 231, 0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      animation: fadeScale 0.6s ease-in-out forwards;
+      z-index: 2;
+      height: auto; /* Agar tinggi kotak sesuai dengan konten */
+      max-height: 500px; /* Sesuaikan tinggi maksimal agar tetap bisa discroll */
+      overflow-y: auto; 
+    }
+
+
+    .form-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeScale 0.6s ease-in-out forwards;
+      width: 100%;
+      max-width: 360px;
+      height: 70vh;
+      padding: 30px 20px;
+      margin: 60px auto;
+      text-align: center;
+      border-radius: 20px;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+    @keyframes fadeScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .form-container h2 {
+      color: #000000;
+      margin-bottom: 10px;
+    }
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+    .form-container button {
+      margin-top: 10px;
+      background-color: #162070;
+      color: rgb(242, 242, 242);
+    }
+    .result {
+      margin-top: 15px;
+      font-style: italic;
+      color: #444;
+      text-align: center;
+    }
+    #heartsContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+    }
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatHeart 6s ease-out forwards;
+    }
+    @keyframes floatHeart {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-120vh) scale(1.5);
+      }
+    }
+    .background-overlay {
+      content: '';
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('julpa.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      transition: bottom 1.5s ease-in-out;
+    }
+    .background-overlay.active {
+      bottom: 0;
+    }
+
+    @keyframes slideFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .final-box {
+  max-width: 400px;
+  max-height: 400px;           /* batas tinggi maksimal kotak */
+  margin: 80px auto;
+  background-color: aliceblue;
+  background-size: cover;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  color: #000;
+  backdrop-filter: brightness(0.8);
+  z-index: 1000;
+  position: relative;
+  animation: slideFadeIn 1s ease forwards;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow-y: auto;            /* tambahkan ini agar isi bisa discroll */
+}
+
+
+    .final-box h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+    .final-box p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #000;
+  word-wrap: break-word;         /* tambahkan ini */
+  overflow-wrap: break-word;     /* tambahkan ini */
+}
+  </style>
+</head>
+<body>
+  <div class="background-overlay" id="bgOverlay"></div>
+  <div class="interaction-area" id="interactionArea">
+    <h1 id="mainTitle">Happy Birthday Zulfaa 🎊🎂🎉<br>Maafin yaa ngucapinnya telat hhe</h1>
+    <div class="button-wrapper">
+      <button class="btn yes-btn" id="yesButton">Iya Dimaafin</button>
+      <button class="btn no-btn" id="noButton">Gak Dimaafin</button>
+    </div>
+  </div>
+
+  <!-- Tambahan: Slide ucapan -->
+  <div class="message-slide" id="messageSlide" style="display:none;">
+    <h2>Happy Birthday...</h2>
+    <p>Heii Zulfaa!! 🎉🎂</p>
+
+      <p>AMPUN yaa, gue baru sadar KEMARIN itu ulang tahun lu! Maafin gue yang lupa
+       tanggal kayak orang amnesia ini 😭. Jangan marah ya, ntar cepet tua lho 
+       (eh tapi emang udah nambah umur sih sekarang 🤣).</p>
+      
+      <p>Selamat ulang tahun, bocil lulus SMA yang sekarang deg-degan nunggu hasil 
+      UTBK! Semoga hasilnya nggak bikin lu jantungan atau tertekan dan lu keterima di kampus 
+      idaman 😂✌️</p>
+      
+      <p>Semoga di usia baru ini, hidup lu makin penuh warna, makin banyak momen indah, makin 
+      kuat ngadepin ujian hidup (dan ujian kuliah nanti 🤣), dan tentu aja makin banyak 
+      kebahagiaan. Ingat, lu itu keren, lu itu berharga, dan lu pantas dapetin hal-hal 
+      baik di dunia ini. Jangan ragu buat ngejar mimpi, jangan minder, dan jangan lupa juga 
+      buat selalu sayang sama diri sendiri 💖.</p>
+
+      Pokoknya semoga sehat selalu, makin kece, makin bahagia, dan makin rajin 
+      (apalagi soal bales chat, hmm). Jangan lupa juga tetep jadi temen yang 
+      asik dan receh kayak biasanya. Sekali lagi, happy birthday yaa! 🎈💖 
+      Kalau gue telat ngucapin, anggap aja biar beda dari yang lain… 
+      anti-mainstream gitu lah~ 😎</p>
+    <button class="btn" id="nextButton">Next</button>
+  </div>
+
+  <div class="form-container" id="formContainer">
+    <h2>Your Wish</h2>
+    <textarea id="note" rows="14" placeholder="Write Your Wish..."></textarea>
+    <button class="btn" onclick="submitAgenda()">Kirim</button>
+    <div class="result" id="result"></div>
+  </div>
+  <div id="heartsContainer"></div>
+
+  <script>
+    const noBtn = document.getElementById('noButton');
+    const yesBtn = document.getElementById('yesButton');
+    const formContainer = document.getElementById('formContainer');
+    const interactionArea = document.getElementById('interactionArea');
+    const resultDiv = document.getElementById('result');
+    const heartsContainer = document.getElementById('heartsContainer');
+    const bgOverlay = document.getElementById('bgOverlay');
+    const messageSlide = document.getElementById('messageSlide');
+    const nextButton = document.getElementById('nextButton');
+
+
+    const birthdayIcons = ['🎉', '🎂', '🎈', '🎁', '✨', '🎊'];
+    const birthdayColors = ['#ff69b4', '#ff1493', '#ff0000', '#db7093', '#ff6ec7', '#d63384'];
+
+    function moveButtonRandomly() {
+      noBtn.classList.add('movable');
+      const padding = 20;
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+      const maxX = window.innerWidth - btnWidth - padding;
+      const maxY = window.innerHeight - btnHeight - padding;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      const icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      const color = heartColors[Math.floor(Math.random() * heartColors.length)];
+      heart.innerText = icon;
+      heart.style.color = color;
+      const size = Math.random() * 20 + 20;
+      const left = Math.random() * window.innerWidth;
+      heart.style.fontSize = `${size}px`;
+      heart.style.left = `${left}px`;
+      heart.style.bottom = `0`;
+      heartsContainer.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    function launchHearts() {
+      let count = 0;
+      const interval = setInterval(() => {
+        createHeart();
+        count++;
+        if (count >= 60) clearInterval(interval);
+      }, 80);
+    }
+
+    noBtn.addEventListener('click', moveButtonRandomly);
+
+    yesBtn.addEventListener('click', () => {
+      interactionArea.style.display = 'none';
+      messageSlide.style.display = 'flex';
+      bgOverlay.classList.add('active');
+      launchHearts();
+    });
+
+    nextButton.addEventListener('click', () => {
+      messageSlide.style.display = 'none';
+      formContainer.style.display = 'flex';
+    });
+
+    function submitAgenda() {
+      const note = document.getElementById('note').value;
+      if (note) {
+        formContainer.style.display = 'none';
+        const resultHTML = `
+          <div class="final-box">
+            <h1>🎁 Your Wish 🎁 </h1>
+            <p><strong>Your Wish:</strong> "${note}"</p>
+            <br>
+            <p><em>
+              Aku kepo jawabanmu, bolehkah aku di kasih ss an nya wkwk<br>
+              Jangan kabur, yaa 😚
+            </em></p>
+          </div>`;
+        document.body.innerHTML += resultHTML;
+      } else {
+        resultDiv.innerHTML = `Tulis dulu kata-katanya yaa~ 😘`;
+      }
+    }
+  </script>
+</body>
