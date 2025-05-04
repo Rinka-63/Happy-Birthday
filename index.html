@@ -219,6 +219,50 @@
   word-wrap: break-word;         /* tambahkan ini */
   overflow-wrap: break-word;     /* tambahkan ini */
 }
+
+/* Media query khusus HP */
+@media (max-width: 480px) {
+  .interaction-area {
+    min-height: auto;
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
+
+  #mainTitle {
+    font-size: 20px;
+    line-height: 1.4;
+    padding: 0 10px;
+  }
+
+  .button-wrapper {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .message-slide,
+  .form-container,
+  .final-box {
+    max-width: 90%;
+    max-height: 70vh;
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .final-box h1 {
+    font-size: 20px;
+  }
+
+  .final-box p {
+    font-size: 14px;
+  }
+}
+
+    
   </style>
 </head>
 <body>
