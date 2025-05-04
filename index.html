@@ -19,21 +19,36 @@
       background-color: #b5d8f9;
       transition: background 1s ease;
     }
-    .interaction-area {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      z-index: 1;
-    }
-    h1 {
-      color: #000000;
-      margin-bottom: 30px;
-    }
+  /* Perbaiki interaction-area */
+.interaction-area {
+  width: 100%;
+  min-height: 100vh;  /* ganti height fix jadi min-height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* jangan center */
+  align-items: center;
+  text-align: center;
+  padding-top: 60px;  /* beri ruang dari atas */
+  padding-bottom: 40px; /* ruang bawah */
+}
+
+/* Atur judul biar responsive */
+#mainTitle {
+  font-size: 24px;
+  padding: 0 15px;
+  line-height: 1.4;
+}
+
+/* Atur tombol wrapper biar nggak maksa ruang */
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 10px;
+}
+
     .btn {
       padding: 12px 20px;
       border: none;
